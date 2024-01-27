@@ -14,5 +14,10 @@
     "web_accessible_resources": [
         "/prompts/start_pomodoro.html",
         "/prompts/start_break.html"
-    ]
+    ],
+    "background": {
+        "scripts": [
+            "background_scripts/background.js"
+        ]
+    }
 }
