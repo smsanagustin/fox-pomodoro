@@ -1,0 +1,18 @@
+{
+    "manifest_version": 2,
+    "name": "Fox Pomodoro",
+    "version": "1.0",
+    "description": "A simple pomodoro timer accessible through your browser.",
+    "homepage_url": "https://github.com/smsanagustin/fox-pomodoro.git",
+    "icons": {
+        "64": "icons/tomato-64.png"
+    },
+    "browser_action": {
+        "default_icon": "icons/tomato-64.png",
+        "default_title": "Fox Pomodoro"
+    },
+    "web_accessible_resources": [
+        "/prompts/start_pomodoro.html",
+        "/prompts/start_break.html"
+    ]
+}

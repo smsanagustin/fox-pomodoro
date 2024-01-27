@@ -1,0 +1,41 @@
+.main-div {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    height: 100%;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.prompt-text {
+    font-size: 55px;
+}
+
+.switch {
+    padding: 20px 80px;
+    border-radius: 10px;
+    color: white;
+    font-size: 23px;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+}
+
+.red {
+    background-color: red;
+}
+
+.green {
+    background-color: green;
+}
+
+.red:hover {
+    background-color: white;
+    border: 2px solid red;
+    color: black;
+}
+
+.green:hover {
+    background-color: white;
+    border: 2px solid green;
+    color: black;
+}
