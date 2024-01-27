@@ -11,6 +11,9 @@
         "default_icon": "icons/tomato-64.png",
         "default_title": "Fox Pomodoro"
     },
+    "permissions": [
+        "tabs"
+    ],
     "web_accessible_resources": [
         "/prompts/start_pomodoro.html",
         "/prompts/start_break.html"

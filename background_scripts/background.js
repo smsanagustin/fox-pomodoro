@@ -1,5 +1,5 @@
 let timer;
-let currentTime = 60;
+let currentTime = 1;
 let timerRunning = false;
 
 function startTimer() {
@@ -11,8 +11,9 @@ function startTimer() {
   timer = setInterval(() => {
     currentTime--;
     browser.browserAction.setBadgeText({ text: String(currentTime) });
-    if (remaining <= 0) {
+    if (currentTime <= 0) {
       clearInterval(timer);
+      browser.tabs.create({ url: browser.extension.getURL("prompts/start_break.html") }); // open a new tab when timer ends
     }
   }, 60000);
 }
