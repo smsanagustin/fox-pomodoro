@@ -1,9 +1,5 @@
 let timer, currentTime, type, timerRunning, workTime, count, shortBreak, longBreak, countBeforeLongBreak;
-countBeforeLongBreak = 3;     // number of pomodoros to complete before long break
-count = 0;                    // initial pomodoro count
-currentTime = workTime = 1;   // intialize current time to work time
-shortBreak = 1;
-longBreak = 2;
+count = 0;
 type = "work";                // initialize type to work
 
 // restore options
