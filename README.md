@@ -11,6 +11,7 @@ Inspired by this Chrome extension: [Marinara Pomodoro Assistant](https://github.
 - Short breaks and long breaks 
 - Automatic timer
 - Desktop notification
+- Persistent settings
 
 ## Screenshots
 | Timer Prompt |
