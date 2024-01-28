@@ -5,6 +5,7 @@ type = "work"; // initialize type to work
 
 function endTimer() {
   clearInterval(timer);
+  timerRunning = false;
   browser.browserAction.setBadgeText({ text: "" });
 
   // show prompt based on what type of timer should be ran next
@@ -31,26 +32,30 @@ function startTimer() {
   }, 60000);
 }
 
-function pauseTimer() {
-  clearInterval(timer);
-  browser.browserAction.setBadgeText({ text: "-" });
-  timerRunning = false;
+function toggleTimer() {
+  if (!timerRunning) {
+    startTimer();
+  } else {
+    clearInterval(timer);
+    browser.browserAction.setBadgeText({ text: "-" });
+    timerRunning = false;
+  }
 }
 
 // listens for icon clicks
-browser.browserAction.onClicked.addListener(() => {
-  browser.browserAction.setBadgeTextColor({ color: "white" }); // set badge text color
-  if (!timerRunning) {
-    if (type === "work") {
-      browser.browserAction.setBadgeBackgroundColor({ color: "red" })
-    } else {
-      browser.browserAction.setBadgeBackgroundColor({ color: "green" })
-    }
-    startTimer();
-  } else {
-    pauseTimer();
-  }
-});
+// browser.browserAction.onClicked.addListener(() => {
+//   browser.browserAction.setBadgeTextColor({ color: "white" }); // set badge text color
+//   if (!timerRunning) {
+//     if (type === "work") {
+//       browser.browserAction.setBadgeBackgroundColor({ color: "red" })
+//     } else {
+//       browser.browserAction.setBadgeBackgroundColor({ color: "green" })
+//     }
+//     startTimer();
+//   } else {
+//     pauseTimer();
+//   }
+// });
 
 function closeCurrentTab() {
   browser.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -70,6 +75,16 @@ function prepareWorkTime() {
   browser.browserAction.setBadgeBackgroundColor({ color: "red" })
 }
 
+function restartTimer() {
+  clearInterval(timer);
+  if (type == "work") {
+    currentTime = workTime;
+  } else {
+    currentTime = breakTime;
+  }
+  startTimer();
+}
+
 /* listen for messages from other scripts (start_break.js and start_pomodoro.js, options.js) */
 browser.runtime.onMessage.addListener((message) => {
   if (message.workTime && message.breakTime) {
@@ -86,6 +101,23 @@ browser.runtime.onMessage.addListener((message) => {
     }
   } else if (message.command == "getCurrentSettings") {
     return Promise.resolve({ workTime: workTime, breakTime: breakTime });
+  } else if (message.buttonClicked) {
+    switch (message.buttonClicked) {
+      case "restart":
+        restartTimer();
+        break;
+      case "pause":
+        toggleTimer();
+        break;
+      case "break":
+        prepareBreakTime();
+        startTimer();
+        break;
+      case "work":
+        prepareWorkTime()
+        startTimer();
+        break;
+    }
   } else {
     closeCurrentTab();
     if (message.command == "startBreak") {
