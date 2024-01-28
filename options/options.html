@@ -8,11 +8,11 @@
     <form class="settings">
       <div>
         <label for="worktime">Work time: </label>
-        <input type="number" id="worktime">
+        <input type="number" required min="1" max="720" id="worktime">
       </div>
       <div>
         <label for="breaktime">Break time: </label>
-        <input type="number" id="breaktime">  
+        <input type="number" required min="1" max="720" id="breaktime">  
       </div>
       <button id="save-button">Save changes</button>
     </form>
