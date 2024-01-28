@@ -57,19 +57,33 @@ function closeCurrentTab() {
   })
 }
 
-/* listen for messages from other scripts (start_break.js and start_pomodoro.js) */
+/* listen for messages from other scripts (start_break.js and start_pomodoro.js, options.js) */
 browser.runtime.onMessage.addListener((message) => {
-  // close tab when button is clicked 
-  closeCurrentTab();
-  if (message.command == "startBreak") {
-    type = "break";
-    currentTime = breakTime;
-    browser.browserAction.setBadgeBackgroundColor({ color: "green" })
+  if (message.workTime && message.breakTime) {
+    // change settings and restart the timer;
+    workTime = Number(message.workTime);
+    breakTime = Number(message.breakTime);
+
+    if (!timerRunning) {
+      if (type == "work") {
+        currentTime = workTime;
+      } else {
+        currentTime = breakTime;
+      }
+    }
   } else {
-    type = "work";
-    currentTime = workTime;
-    browser.browserAction.setBadgeBackgroundColor({ color: "red" })
+    // close tab when button is clicked 
+    closeCurrentTab();
+    if (message.command == "startBreak") {
+      type = "break";
+      currentTime = breakTime;
+      browser.browserAction.setBadgeBackgroundColor({ color: "green" })
+    } else {
+      type = "work";
+      currentTime = workTime;
+      browser.browserAction.setBadgeBackgroundColor({ color: "red" })
+    }
+    startTimer();
   }
-  startTimer();
 });
 
