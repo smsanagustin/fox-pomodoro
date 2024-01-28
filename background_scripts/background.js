@@ -57,6 +57,18 @@ function closeCurrentTab() {
   })
 }
 
+function prepareBreakTime() {
+  type = "break";
+  currentTime = breakTime;
+  browser.browserAction.setBadgeBackgroundColor({ color: "green" })
+}
+
+function prepareWorkTime() {
+  type = "work";
+  currentTime = workTime;
+  browser.browserAction.setBadgeBackgroundColor({ color: "red" })
+}
+
 /* listen for messages from other scripts (start_break.js and start_pomodoro.js, options.js) */
 browser.runtime.onMessage.addListener((message) => {
   if (message.workTime && message.breakTime) {
@@ -71,17 +83,15 @@ browser.runtime.onMessage.addListener((message) => {
         currentTime = breakTime;
       }
     }
+  } else if (message.command == "getCurrentSettings") {
+    return Promise.resolve({ workTime: workTime, breakTime: breakTime });
   } else {
     // close tab when button is clicked 
     closeCurrentTab();
     if (message.command == "startBreak") {
-      type = "break";
-      currentTime = breakTime;
-      browser.browserAction.setBadgeBackgroundColor({ color: "green" })
+      prepareBreakTime();
     } else {
-      type = "work";
-      currentTime = workTime;
-      browser.browserAction.setBadgeBackgroundColor({ color: "red" })
+      prepareWorkTime();
     }
     startTimer();
   }
