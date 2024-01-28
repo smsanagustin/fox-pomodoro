@@ -5,14 +5,19 @@
     <link rel="stylesheet" href="options.css">
   </head> 
   <body>
+    <h3>Set time duration (in minutes)</h3>
     <form class="settings">
       <div>
         <label for="worktime">Work time: </label>
         <input type="number" required min="1" max="720" id="worktime">
       </div>
       <div>
-        <label for="breaktime">Break time: </label>
-        <input type="number" required min="1" max="720" id="breaktime">  
+        <label for="shortbreak">Short break: </label>
+        <input type="number" required min="1" max="720" id="shortbreak">  
+      </div>
+      <div>
+        <label for="longbreak">Long break: </label>
+        <input type="number" required min="1" max="720" id="longbreak">  
       </div>
       <button id="save-button">Save changes</button>
       <div class="prompt-user">

@@ -1,13 +1,14 @@
 let workTimeInput = document.getElementById("worktime");
-let breakTimeInput = document.getElementById("breaktime");
+let shortBreakInput = document.getElementById("shortbreak");
+let longBreakInput = document.getElementById("longbreak");
 let settings = document.querySelector(".settings");
 let promptUser = document.querySelector(".prompt-user")
 
 // set current time duration sent by the background script as input field values
-function handleResponse(message) {
-  console.log("received message!")
-  workTimeInput.value = Number(message.workTime);
-  breakTimeInput.value = Number(message.breakTime);
+function handleResponse(response) {
+  workTimeInput.value = Number(response.workTime);
+  shortBreakInput.value = Number(response.shortBreak);
+  longBreakInput.value = Number(response.longBreak);
 }
 
 browser.runtime.sendMessage({ command: "getCurrentSettings" }).then(handleResponse); // request current time duration from background script
@@ -16,8 +17,9 @@ browser.runtime.sendMessage({ command: "getCurrentSettings" }).then(handleRespon
 settings.addEventListener("submit", (e) => {
   e.preventDefault();
   workTime = workTimeInput.value;
-  breakTime = breakTimeInput.value;
-  browser.runtime.sendMessage({ workTime: String(workTime), breakTime: String(breakTime) });
+  shortBreak = shortBreakInput.value;
+  longBreak = longBreakInput.value;
+  browser.runtime.sendMessage({ workTime: String(workTime), shortBreak: String(shortBreak), longBreak: String(longBreak) });
 
   promptUser.innerText = "Saved settings!";
 })

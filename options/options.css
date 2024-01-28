@@ -1,3 +1,7 @@
+body {
+  font-family: Sans-serif;
+}
+
 .settings {
   display: flex;
   flex-direction: column;

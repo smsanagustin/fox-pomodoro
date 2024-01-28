@@ -1,7 +1,10 @@
-let timer, currentTime, type, timerRunning, workTime, breakTime;
-currentTime = workTime = 1; // intialize current time to work time
-breakTime = 3;
-type = "work"; // initialize type to work
+let timer, currentTime, type, timerRunning, workTime, count, shortBreak, longBreak, countBeforeLongBreak;
+countBeforeLongBreak = 3;     // number of pomodoros to complete before long break
+count = 0;                    // initial pomodoro count
+currentTime = workTime = 1;   // intialize current time to work time
+shortBreak = 1;
+longBreak = 2;
+type = "work";                // initialize type to work
 
 function endTimer() {
   clearInterval(timer);
@@ -19,6 +22,11 @@ function endTimer() {
 function startTimer() {
   timerRunning = true;
 
+  // reset pomodoro count 
+  if (count == countBeforeLongBreak) {
+    count = 0;
+  }
+
   browser.browserAction.setBadgeText({ text: String(currentTime) + "m" });
   clearInterval(timer);
 
@@ -27,6 +35,9 @@ function startTimer() {
     browser.browserAction.setBadgeText({ text: String(currentTime) + "m" });
 
     if (currentTime <= 0) {
+      if (type == "work") {
+        count++;
+      }
       endTimer();
     }
   }, 60000);
@@ -65,7 +76,11 @@ function closeCurrentTab() {
 
 function prepareBreakTime() {
   type = "break";
-  currentTime = breakTime;
+  if (count < countBeforeLongBreak) {
+    currentTime = shortBreak;
+  } else {
+    currentTime = longBreak;
+  }
   browser.browserAction.setBadgeBackgroundColor({ color: "green" })
 }
 
@@ -78,29 +93,32 @@ function prepareWorkTime() {
 function restartTimer() {
   clearInterval(timer);
   if (type == "work") {
-    currentTime = workTime;
+    prepareWorkTime();
   } else {
-    currentTime = breakTime;
+    prepareBreakTime();
   }
   startTimer();
 }
 
 /* listen for messages from other scripts (start_break.js and start_pomodoro.js, options.js) */
 browser.runtime.onMessage.addListener((message) => {
-  if (message.workTime && message.breakTime) {
+  if (message.workTime && message.shortBreak && message.longBreak) {
     // change settings and restart the timer;
     workTime = Number(message.workTime);
-    breakTime = Number(message.breakTime);
+    shortBreak = Number(message.shortBreak);
+    longBreak = Number(message.longBreak);
 
     if (!timerRunning) {
       if (type == "work") {
-        currentTime = workTime;
+        prepareWorkTime();
       } else {
-        currentTime = breakTime;
+        prepareBreakTime();
       }
     }
+  } else if (message.command == "getCount") {
+    return Promise.resolve({ count: count, countBeforeLongBreak: countBeforeLongBreak });
   } else if (message.command == "getCurrentSettings") {
-    return Promise.resolve({ workTime: workTime, breakTime: breakTime });
+    return Promise.resolve({ workTime: workTime, shortBreak: shortBreak, longBreak: longBreak });
   } else if (message.buttonClicked) {
     switch (message.buttonClicked) {
       case "restart":
