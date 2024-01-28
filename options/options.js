@@ -1,3 +1,4 @@
+let workTime, shortBreak, longBreak, countBeforeLongBreak;
 let workTimeInput = document.getElementById("worktime");
 let shortBreakInput = document.getElementById("shortbreak");
 let longBreakInput = document.getElementById("longbreak");
@@ -23,6 +24,14 @@ settings.addEventListener("submit", (e) => {
   longBreak = longBreakInput.value;
   countBeforeLongBreak = countBeforeLong.value;
   browser.runtime.sendMessage({ workTime: String(workTime), shortBreak: String(shortBreak), longBreak: String(longBreak), countBeforeLongBreak: String(countBeforeLongBreak) });
+
+  // save settings 
+  browser.storage.local.set({
+    workTime: workTime,
+    shortBreak: shortBreak,
+    longBreak: longBreak,
+    countBeforeLongBreak: countBeforeLongBreak
+  })
 
   promptUser.innerText = "Saved settings!";
 })

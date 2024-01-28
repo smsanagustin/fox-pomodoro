@@ -8,7 +8,6 @@ Inspired by this Chrome extension: [Marinara Pomodoro Assistant](https://github.
 - Can set work and break duration through extension options
 
 ## TODO
-- Short breaks and long breaks 
 - Automatic timer
 - Desktop notification
 - Persistent settings

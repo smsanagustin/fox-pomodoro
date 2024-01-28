@@ -6,6 +6,25 @@ shortBreak = 1;
 longBreak = 2;
 type = "work";                // initialize type to work
 
+// restore options
+function restoreOptions() {
+  function setSettings(result) {
+    workTime = result.workTime || 60;
+    shortBreak = result.shortBreak || 10;
+    longBreak = result.longBreak || 30;
+    countBeforeLongBreak = result.countBeforeLongBreak || 4;
+  }
+
+  function onError(error) {
+    console.log(`Error: ${error}`);
+  }
+
+  // fetch saved options 
+  browser.storage.local.get(["workTime", "shortBreak", "longBreak", "countBeforeLongBreak"]).then(setSettings, onError);
+}
+
+restoreOptions();
+
 function endTimer() {
   clearInterval(timer);
   timerRunning = false;
