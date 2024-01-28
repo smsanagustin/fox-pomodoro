@@ -1,7 +1,5 @@
-let timer, currentTime, type;
-let workTime = 1;
-let breakTime = 1;
-let timerRunning;
+let timer, currentTime, type, timerRunning, workTime, breakTime;
+workTime = breakTime = 1;
 type = "work"; // initialize type to work
 
 function endTimer() {
@@ -26,7 +24,6 @@ function startTimer() {
     currentTime--;
     browser.browserAction.setBadgeText({ text: String(currentTime) });
 
-    // reset timer and show prompt when timer ends
     if (currentTime <= 0) {
       endTimer();
     }
@@ -53,26 +50,32 @@ browser.browserAction.onClicked.addListener(() => {
   if (!timerRunning) {
     if (type === "work") {
       prepareWorkTimer();
-      startTimer();
     } else {
       prepareBreakTimer();
-      startTimer();
     }
+    startTimer();
   } else {
     pauseTimer();
   }
 });
 
+function closeCurrentTab() {
+  browser.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    browser.tabs.remove(tabs[0].id);
+  })
+}
+
 /* listen for messages from other scripts (start_break.js and start_pomodoro.js) */
 browser.runtime.onMessage.addListener((message) => {
+  // close tab when button is clicked 
+  closeCurrentTab();
   if (message.command == "startBreak") {
     type = "break";
     prepareBreakTimer();
-    startTimer();
   } else {
     type = "work";
     prepareWorkTimer();
-    startTimer();
   }
+  startTimer();
 });
 
