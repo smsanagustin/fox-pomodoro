@@ -1,6 +1,6 @@
 let timer, currentTime, type, timerRunning, workTime, breakTime;
-workTime = 60;
-breakTime = 10;
+currentTime = workTime = 1; // intialize current time to work time
+breakTime = 3;
 type = "work"; // initialize type to work
 
 function endTimer() {
@@ -37,22 +37,13 @@ function pauseTimer() {
   timerRunning = false;
 }
 
-function prepareWorkTimer() {
-  currentTime = workTime;
-  browser.browserAction.setBadgeBackgroundColor({ color: "red" })
-}
-
-function prepareBreakTimer() {
-  currentTime = breakTime;
-  browser.browserAction.setBadgeBackgroundColor({ color: "green" })
-}
-
+// listens for icon clicks
 browser.browserAction.onClicked.addListener(() => {
   if (!timerRunning) {
     if (type === "work") {
-      prepareWorkTimer();
+      browser.browserAction.setBadgeBackgroundColor({ color: "red" })
     } else {
-      prepareBreakTimer();
+      browser.browserAction.setBadgeBackgroundColor({ color: "green" })
     }
     startTimer();
   } else {
@@ -72,10 +63,12 @@ browser.runtime.onMessage.addListener((message) => {
   closeCurrentTab();
   if (message.command == "startBreak") {
     type = "break";
-    prepareBreakTimer();
+    currentTime = breakTime;
+    browser.browserAction.setBadgeBackgroundColor({ color: "green" })
   } else {
     type = "work";
-    prepareWorkTimer();
+    currentTime = workTime;
+    browser.browserAction.setBadgeBackgroundColor({ color: "red" })
   }
   startTimer();
 });
