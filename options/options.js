@@ -10,16 +10,14 @@ function handleResponse(message) {
   breakTimeInput.value = Number(message.breakTime);
 }
 
-// request current time duration from background script
-browser.runtime.sendMessage({ command: "getCurrentSettings" }).then(handleResponse);
+browser.runtime.sendMessage({ command: "getCurrentSettings" }).then(handleResponse); // request current time duration from background script
 
-// send input values to the background script
+// change settings
 settings.addEventListener("submit", (e) => {
   e.preventDefault();
   workTime = workTimeInput.value;
   breakTime = breakTimeInput.value;
   browser.runtime.sendMessage({ workTime: String(workTime), breakTime: String(breakTime) });
 
-  // prompt user
   promptUser.innerText = "Saved settings!";
 })

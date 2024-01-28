@@ -9,9 +9,9 @@ function endTimer() {
 
   // show prompt based on what type of timer should be ran next
   if (type === "work") {
-    browser.tabs.create({ url: browser.extension.getURL("prompts/start_break.html") }); // open a new tab when timer ends
+    browser.tabs.create({ url: browser.extension.getURL("prompts/start_break.html") });
   } else {
-    browser.tabs.create({ url: browser.extension.getURL("prompts/start_pomodoro.html") }); // open a new tab when timer ends
+    browser.tabs.create({ url: browser.extension.getURL("prompts/start_pomodoro.html") });
   }
 }
 
@@ -87,7 +87,6 @@ browser.runtime.onMessage.addListener((message) => {
   } else if (message.command == "getCurrentSettings") {
     return Promise.resolve({ workTime: workTime, breakTime: breakTime });
   } else {
-    // close tab when button is clicked 
     closeCurrentTab();
     if (message.command == "startBreak") {
       prepareBreakTime();
