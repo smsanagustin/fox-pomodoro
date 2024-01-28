@@ -9,12 +9,6 @@ restartButton.addEventListener("click", () => {
 });
 
 pauseButton.addEventListener("click", () => {
-  let pauseButtonText = pauseButton.innerText;
-  if (pauseButtonText == "Pause timer") {
-    pauseButton.innerText = "Resume timer"
-  } else {
-    pauseButton.innerText = "Pause timer"
-  }
   browser.runtime.sendMessage({ buttonClicked: "pause" });
 });
 
