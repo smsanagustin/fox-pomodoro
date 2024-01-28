@@ -1,6 +1,7 @@
 let workTimeInput = document.getElementById("worktime");
 let shortBreakInput = document.getElementById("shortbreak");
 let longBreakInput = document.getElementById("longbreak");
+let countBeforeLong = document.getElementById("count-before-longbreak");
 let settings = document.querySelector(".settings");
 let promptUser = document.querySelector(".prompt-user")
 
@@ -9,6 +10,7 @@ function handleResponse(response) {
   workTimeInput.value = Number(response.workTime);
   shortBreakInput.value = Number(response.shortBreak);
   longBreakInput.value = Number(response.longBreak);
+  countBeforeLong.value = Number(response.countBeforeLongBreak);
 }
 
 browser.runtime.sendMessage({ command: "getCurrentSettings" }).then(handleResponse); // request current time duration from background script
@@ -19,7 +21,8 @@ settings.addEventListener("submit", (e) => {
   workTime = workTimeInput.value;
   shortBreak = shortBreakInput.value;
   longBreak = longBreakInput.value;
-  browser.runtime.sendMessage({ workTime: String(workTime), shortBreak: String(shortBreak), longBreak: String(longBreak) });
+  countBeforeLongBreak = countBeforeLong.value;
+  browser.runtime.sendMessage({ workTime: String(workTime), shortBreak: String(shortBreak), longBreak: String(longBreak), countBeforeLongBreak: String(countBeforeLongBreak) });
 
   promptUser.innerText = "Saved settings!";
 })

@@ -13,7 +13,8 @@
     "default_popup": "popup/popup.html"
   },
   "permissions": [
-    "tabs"
+    "tabs",
+    "storage"
   ],
   "web_accessible_resources": [
     "/prompts/start_pomodoro.html",
@@ -27,5 +28,10 @@
   "options_ui": {
     "page": "options/options.html",
     "open_in_tab": true
+  },
+  "browser_specific_settings": {
+    "user": {
+      "id": "user@settings"
+    }
   }
 }

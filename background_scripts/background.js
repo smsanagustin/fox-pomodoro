@@ -102,11 +102,12 @@ function restartTimer() {
 
 /* listen for messages from other scripts (start_break.js and start_pomodoro.js, options.js) */
 browser.runtime.onMessage.addListener((message) => {
-  if (message.workTime && message.shortBreak && message.longBreak) {
+  if (message.workTime && message.shortBreak && message.longBreak && message.countBeforeLongBreak) {
     // change settings and restart the timer;
     workTime = Number(message.workTime);
     shortBreak = Number(message.shortBreak);
     longBreak = Number(message.longBreak);
+    countBeforeLongBreak = message.countBeforeLongBreak;
 
     if (!timerRunning) {
       if (type == "work") {
@@ -118,7 +119,7 @@ browser.runtime.onMessage.addListener((message) => {
   } else if (message.command == "getCount") {
     return Promise.resolve({ count: count, countBeforeLongBreak: countBeforeLongBreak });
   } else if (message.command == "getCurrentSettings") {
-    return Promise.resolve({ workTime: workTime, shortBreak: shortBreak, longBreak: longBreak });
+    return Promise.resolve({ workTime: workTime, shortBreak: shortBreak, longBreak: longBreak, countBeforeLongBreak: countBeforeLongBreak });
   } else if (message.buttonClicked) {
     switch (message.buttonClicked) {
       case "restart":
