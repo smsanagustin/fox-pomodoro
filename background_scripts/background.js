@@ -18,12 +18,12 @@ function endTimer() {
 function startTimer() {
   timerRunning = true;
 
-  browser.browserAction.setBadgeText({ text: String(currentTime) });
+  browser.browserAction.setBadgeText({ text: String(currentTime) + "m" });
   clearInterval(timer);
 
   timer = setInterval(() => {
     currentTime--;
-    browser.browserAction.setBadgeText({ text: String(currentTime) });
+    browser.browserAction.setBadgeText({ text: String(currentTime) + "m" });
 
     if (currentTime <= 0) {
       endTimer();
@@ -39,6 +39,7 @@ function pauseTimer() {
 
 // listens for icon clicks
 browser.browserAction.onClicked.addListener(() => {
+  browser.browserAction.setBadgeTextColor({ color: "white" }); // set badge text color
   if (!timerRunning) {
     if (type === "work") {
       browser.browserAction.setBadgeBackgroundColor({ color: "red" })
