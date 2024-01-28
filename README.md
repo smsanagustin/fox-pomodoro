@@ -4,23 +4,14 @@ Inspired by this Chrome extension: [Marinara Pomodoro Assistant](https://github.
 
 ## Features
 - Creates new tab when timer is over
-- <b>Allows toggling timer</b>: start break/work, pause and restart
-- Can set work and break duration through extension options
+- <b>Allows toggling timer</b>: start break/work, pause, restart
+- Change duration for work, short break and long break
+- Can set # of pomodoros before long break
+
 
 ## TODO
 - Automatic timer
 - Desktop notification
 
 ## Screenshots
-| Timer Prompt |
-|-|
-| <img src="screenshots/start_break.png"> |
-
-| Popup |
-|-|
-| <img src="screenshots/popup.png"> |
-
-| Options |
-|-|
-| <img src="screenshots/options.png"> |
-
+TODO
