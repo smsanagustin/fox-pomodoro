@@ -10,7 +10,6 @@ Inspired by this Chrome extension: [Marinara Pomodoro Assistant](https://github.
 ## TODO
 - Automatic timer
 - Desktop notification
-- Persistent settings
 
 ## Screenshots
 | Timer Prompt |
