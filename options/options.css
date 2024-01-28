@@ -1,0 +1,23 @@
+.settings {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  gap: 5px;
+}
+
+.settings > div > input {
+  height: 35px;
+  width: 80px;
+  font-size: 20px;
+  border-radius: 5px;
+}
+
+#save-button {
+  margin-top: 20px;
+  height: 35px;
+  width: 160px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
