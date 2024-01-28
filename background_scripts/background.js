@@ -1,5 +1,6 @@
 let timer, currentTime, type, timerRunning, workTime, breakTime;
-workTime = breakTime = 1;
+workTime = 60;
+breakTime = 10;
 type = "work"; // initialize type to work
 
 function endTimer() {
