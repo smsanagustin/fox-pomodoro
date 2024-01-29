@@ -35,12 +35,14 @@ function endTimer() {
 }
 
 function timerStart() {
-  if (type == "work") {
-    prepareBreakTime();
-  } else {
-    prepareWorkTime();
+  if (!timerRunning) {
+    if (type == "work") {
+      prepareBreakTime();
+    } else {
+      prepareWorkTime();
+    }
+    startTimer();
   }
-  startTimer();
 }
 
 function sendNotifications() {
@@ -63,6 +65,7 @@ function sendNotifications() {
 }
 
 function startTimer() {
+  closePromptTab();
   timerRunning = true;
 
   // reset pomodoro count 
@@ -97,7 +100,7 @@ function toggleTimer() {
   }
 }
 
-function closeCurrentTab() {
+function closePromptTab() {
   browser.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     browser.tabs.remove(tabs[0].id);
   })
@@ -168,7 +171,6 @@ browser.runtime.onMessage.addListener((message) => {
         break;
     }
   } else {
-    closeCurrentTab();
     if (message.command == "startBreak") {
       prepareBreakTime();
     } else {
