@@ -5,29 +5,37 @@
     <link rel="stylesheet" href="options.css">
   </head> 
   <body>
-    <h3>Set time duration (in minutes)</h3>
-    <form class="settings">
-      <div>
-        <label for="worktime">Work time: </label>
-        <input type="number" required min="1" max="720" id="worktime">
-      </div>
-      <div>
-        <label for="shortbreak">Short break: </label>
-        <input type="number" required min="1" max="720" id="shortbreak">  
-      </div>
-      <div>
-        <label for="longbreak">Long break: </label>
-        <input type="number" required min="1" max="720" id="longbreak">  
-      </div>
-      <div>
-        <label for="count-before-longbreak">Number of pomodoros before long break: </label>
-        <input type="number" required min="1" max="100" id="count-before-longbreak">  
-      </div>
-      <button id="save-button">Save changes</button>
-      <div class="prompt-user">
-      </div>
-    </form>
+    <div class="main">
+      <form class="settings">
+        <h3>Set time duration (in minutes)</h3>
+        <div>
+          <label for="worktime">Work time: </label>
+          <input type="number" required min="1" max="720" id="worktime">
+        </div>
+        <div>
+          <label for="shortbreak">Short break: </label>
+          <input type="number" required min="1" max="720" id="shortbreak">  
+        </div>
+        <div>
+          <label for="longbreak">Long break: </label>
+          <input type="number" required min="1" max="720" id="longbreak">  
+        </div>
+        <div>
+          <label for="count-before-longbreak">Number of pomodoros before long break: </label>
+          <input type="number" required min="1" max="100" id="count-before-longbreak">  
+        </div>
+        <div class="auto-start">
+          <label for="auto-start">Start timer automatically</label>
+          <input type="checkbox" id="auto-start">  
+        </div>
 
-    <script src="options.js"></script>
+        <button id="save-button">Save changes</button>
+
+        <div class="prompt-user">
+        </div>
+      </form>
+
+      <script src="options.js"></script>
+    </div>
   </body>
 </html>
