@@ -53,6 +53,7 @@ function sendNotifications() {
   } else {
     content = "Break is over! It's time to start working.";
   }
+
   browser.notifications.create({
     type: "basic",
     iconUrl: browser.extension.getURL("icons/tomato-64.png"),
@@ -65,7 +66,6 @@ function sendNotifications() {
 }
 
 function startTimer() {
-  closePromptTab();
   timerRunning = true;
 
   // reset pomodoro count 
@@ -100,27 +100,31 @@ function toggleTimer() {
   }
 }
 
-function closePromptTab() {
+function closeCurrentTab() {
   browser.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     browser.tabs.remove(tabs[0].id);
   })
 }
 
 function prepareBreakTime() {
-  type = "break";
-  if (count < countBeforeLongBreak) {
-    currentTime = shortBreak;
-  } else {
-    currentTime = longBreak;
+  if (!timerRunning) {
+    type = "break";
+    if (count < countBeforeLongBreak) {
+      currentTime = shortBreak;
+    } else {
+      currentTime = longBreak;
+    }
+    browser.browserAction.setBadgeBackgroundColor({ color: "green" })
   }
-  browser.browserAction.setBadgeBackgroundColor({ color: "green" })
 }
 
 function prepareWorkTime() {
-  type = "work";
-  currentTime = workTime;
-  browser.browserAction.setBadgeTextColor({ color: "white" });
-  browser.browserAction.setBadgeBackgroundColor({ color: "red" })
+  if (!timerRunning) {
+    type = "work";
+    currentTime = workTime;
+    browser.browserAction.setBadgeTextColor({ color: "white" });
+    browser.browserAction.setBadgeBackgroundColor({ color: "red" })
+  }
 }
 
 function restartTimer() {
@@ -172,8 +176,10 @@ browser.runtime.onMessage.addListener((message) => {
     }
   } else {
     if (message.command == "startBreak") {
+      closeCurrentTab();
       prepareBreakTime();
     } else {
+      closeCurrentTab();
       prepareWorkTime();
     }
     startTimer();
