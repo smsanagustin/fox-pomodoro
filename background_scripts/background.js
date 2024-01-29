@@ -34,6 +34,15 @@ function endTimer() {
   }
 }
 
+function timerStart() {
+  if (type == "work") {
+    prepareBreakTime();
+  } else {
+    prepareWorkTime();
+  }
+  startTimer();
+}
+
 function sendNotifications() {
   let content;
   const title = "Times up!"
@@ -49,6 +58,8 @@ function sendNotifications() {
     message: content,
   });
 
+  // start timer when user clicks on the notification 
+  browser.notifications.onClicked.addListener(timerStart);
 }
 
 function startTimer() {
