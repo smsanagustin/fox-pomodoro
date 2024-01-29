@@ -34,6 +34,23 @@ function endTimer() {
   }
 }
 
+function sendNotifications() {
+  let content;
+  const title = "Times up!"
+  if (type == "work") {
+    content = "Work is over! Take a break now.";
+  } else {
+    content = "Break is over! It's time to start working.";
+  }
+  browser.notifications.create({
+    type: "basic",
+    iconUrl: browser.extension.getURL("icons/tomato-64.png"),
+    title,
+    message: content,
+  });
+
+}
+
 function startTimer() {
   timerRunning = true;
 
@@ -54,6 +71,7 @@ function startTimer() {
         count++;
       }
       endTimer();
+      sendNotifications();
     }
   }, 60000);
 }
