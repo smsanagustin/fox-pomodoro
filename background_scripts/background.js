@@ -102,6 +102,7 @@ function prepareBreakTime() {
 function prepareWorkTime() {
   type = "work";
   currentTime = workTime;
+  browser.browserAction.setBadgeTextColor({ color: "white" });
   browser.browserAction.setBadgeBackgroundColor({ color: "red" })
 }
 
