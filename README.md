@@ -8,10 +8,7 @@ Inspired by this Chrome extension: [Marinara Pomodoro Assistant](https://github.
 - Change duration for work, short break and long break
 - Can set # of pomodoros before long break
 - Desktop notification when time is over
-
-
-## TODO
-- Automatic timer
+- Option to switch timer on automatically
 
 ## Screenshots
 TODO

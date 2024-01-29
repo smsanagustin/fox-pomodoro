@@ -17,5 +17,5 @@ browser.runtime.sendMessage({ command: "getCount" }).then(handleResponse).then(p
 
 start_button.addEventListener("click", () => {
   // send message to background script
-  browser.runtime.sendMessage({ command: "startPomodoro" });
+  browser.runtime.sendMessage({ command: "startWork" });
 })

@@ -1,6 +1,7 @@
-let timer, currentTime, type, timerRunning, workTime, count, shortBreak, longBreak, countBeforeLongBreak;
+let timer, currentTime, type, timerRunning, workTime, count, shortBreak, longBreak, countBeforeLongBreak, autoStart;
 count = 0;
 type = "work";                // initialize type to work
+autoStart = false;            // initialized to false
 
 // restore options
 function restoreOptions() {
@@ -9,6 +10,7 @@ function restoreOptions() {
     shortBreak = result.shortBreak || 5;
     longBreak = result.longBreak || 15;
     countBeforeLongBreak = result.countBeforeLongBreak || 4;
+    autoStart = result.autoStart || false;
   }
 
   function onError(error) {
@@ -16,7 +18,7 @@ function restoreOptions() {
   }
 
   // fetch saved options 
-  browser.storage.local.get(["workTime", "shortBreak", "longBreak", "countBeforeLongBreak"]).then(setSettings, onError);
+  browser.storage.local.get(["workTime", "shortBreak", "longBreak", "countBeforeLongBreak", "autoStart"]).then(setSettings, onError);
 }
 
 restoreOptions();
@@ -31,6 +33,15 @@ function endTimer() {
     browser.tabs.create({ url: browser.extension.getURL("prompts/start_break.html") });
   } else {
     browser.tabs.create({ url: browser.extension.getURL("prompts/start_pomodoro.html") });
+  }
+
+  if (autoStart) {
+    if (type == "work") {
+      prepareBreakTime();
+    } else {
+      prepareWorkTime();
+    }
+    startTimer();
   }
 }
 
@@ -62,7 +73,9 @@ function sendNotifications() {
   });
 
   // start timer when user clicks on the notification 
-  browser.notifications.onClicked.addListener(timerStart);
+  if (!autoStart) {
+    browser.notifications.onClicked.addListener(timerStart);
+  }
 }
 
 function startTimer() {
@@ -107,24 +120,20 @@ function closeCurrentTab() {
 }
 
 function prepareBreakTime() {
-  if (!timerRunning) {
-    type = "break";
-    if (count < countBeforeLongBreak) {
-      currentTime = shortBreak;
-    } else {
-      currentTime = longBreak;
-    }
-    browser.browserAction.setBadgeBackgroundColor({ color: "green" })
+  type = "break";
+  if (count < countBeforeLongBreak) {
+    currentTime = shortBreak;
+  } else {
+    currentTime = longBreak;
   }
+  browser.browserAction.setBadgeBackgroundColor({ color: "green" })
 }
 
 function prepareWorkTime() {
-  if (!timerRunning) {
-    type = "work";
-    currentTime = workTime;
-    browser.browserAction.setBadgeTextColor({ color: "white" });
-    browser.browserAction.setBadgeBackgroundColor({ color: "red" })
-  }
+  type = "work";
+  currentTime = workTime;
+  browser.browserAction.setBadgeTextColor({ color: "white" });
+  browser.browserAction.setBadgeBackgroundColor({ color: "red" })
 }
 
 function restartTimer() {
@@ -145,18 +154,21 @@ browser.runtime.onMessage.addListener((message) => {
     shortBreak = Number(message.shortBreak);
     longBreak = Number(message.longBreak);
     countBeforeLongBreak = message.countBeforeLongBreak;
+    autoStart = message.autoStart;
 
-    if (!timerRunning) {
-      if (type == "work") {
-        prepareWorkTime();
-      } else {
-        prepareBreakTime();
-      }
+    if (type == "work") {
+      prepareWorkTime();
+    } else {
+      prepareBreakTime();
     }
+    if (timerRunning) {
+      startTimer();
+    }
+
   } else if (message.command == "getCount") {
     return Promise.resolve({ count: count, countBeforeLongBreak: countBeforeLongBreak });
   } else if (message.command == "getCurrentSettings") {
-    return Promise.resolve({ workTime: workTime, shortBreak: shortBreak, longBreak: longBreak, countBeforeLongBreak: countBeforeLongBreak });
+    return Promise.resolve({ workTime: workTime, shortBreak: shortBreak, longBreak: longBreak, countBeforeLongBreak: countBeforeLongBreak, autoStart: autoStart });
   } else if (message.buttonClicked) {
     switch (message.buttonClicked) {
       case "restart":
@@ -174,15 +186,16 @@ browser.runtime.onMessage.addListener((message) => {
         startTimer();
         break;
     }
-  } else {
-    if (message.command == "startBreak") {
-      closeCurrentTab();
-      prepareBreakTime();
-    } else {
-      closeCurrentTab();
-      prepareWorkTime();
+  } else if (message.command == "startBreak" || message.command == "startWork") {
+    closeCurrentTab();
+    if (!autoStart) {
+      if (message.command == "startBreak") {
+        prepareBreakTime();
+      } else {
+        prepareWorkTime();
+      }
+      startTimer();
     }
-    startTimer();
   }
 });
 
