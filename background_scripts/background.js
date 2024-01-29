@@ -5,9 +5,9 @@ type = "work";                // initialize type to work
 // restore options
 function restoreOptions() {
   function setSettings(result) {
-    workTime = result.workTime || 60;
-    shortBreak = result.shortBreak || 10;
-    longBreak = result.longBreak || 30;
+    workTime = result.workTime || 25;
+    shortBreak = result.shortBreak || 5;
+    longBreak = result.longBreak || 15;
     countBeforeLongBreak = result.countBeforeLongBreak || 4;
   }
 
@@ -67,21 +67,6 @@ function toggleTimer() {
     timerRunning = false;
   }
 }
-
-// listens for icon clicks
-// browser.browserAction.onClicked.addListener(() => {
-//   browser.browserAction.setBadgeTextColor({ color: "white" }); // set badge text color
-//   if (!timerRunning) {
-//     if (type === "work") {
-//       browser.browserAction.setBadgeBackgroundColor({ color: "red" })
-//     } else {
-//       browser.browserAction.setBadgeBackgroundColor({ color: "green" })
-//     }
-//     startTimer();
-//   } else {
-//     pauseTimer();
-//   }
-// });
 
 function closeCurrentTab() {
   browser.tabs.query({ active: true, currentWindow: true }, (tabs) => {

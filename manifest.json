@@ -14,7 +14,8 @@
   },
   "permissions": [
     "tabs",
-    "storage"
+    "storage",
+    "notifications"
   ],
   "web_accessible_resources": [
     "/prompts/start_pomodoro.html",
