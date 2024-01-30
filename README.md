@@ -10,5 +10,25 @@ Inspired by this Chrome extension: [Marinara Pomodoro Assistant](https://chromew
 - Desktop notification when time is over
 - Option to Switch timer on automatically
 
+## How to install
+Install on Firefox Browser via [addons.mozilla.org](https://addons.mozilla.org/en-US/firefox/addon/fox-pomodoro/).
+
 ## Screenshots
-TODO
+| Options |
+|-|
+| <img src="screenshots/options.png"> |
+
+| Prompt |
+|-|
+| <img src="screenshots/prompt.png"> |
+
+| Toolbar Icon | Notification |
+|-|-|
+| <img src="screenshots/toolbar.png"> | <img src="screenshots/notification.png"> |
+
+| Settings |
+|-|
+| <img src="screenshots/settings.png"> |
+
+
+
