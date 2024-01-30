@@ -97,8 +97,8 @@ function startTimer() {
       if (type == "work") {
         count++;
       }
-      endTimer();
       sendNotifications();
+      endTimer();
     }
   }, 60000);
 }

@@ -1,6 +1,6 @@
 ## Firefox pomodoro extension
 
-Inspired by this Chrome extension: [Marinara Pomodoro Assistant](https://github.com/schmich/marinara.git).
+Inspired by this Chrome extension: [Marinara Pomodoro Assistant](https://chromewebstore.google.com/detail/marinara-pomodoro%C2%AE-assist/lojgmehidjdhhbmpjfamhpkpodfcodef).
 
 ## Features
 - Creates new tab when timer is over
@@ -8,7 +8,7 @@ Inspired by this Chrome extension: [Marinara Pomodoro Assistant](https://github.
 - Change duration for work, short break and long break
 - Can set # of pomodoros before long break
 - Desktop notification when time is over
-- Option to switch timer on automatically
+- Option to Switch timer on automatically
 
 ## Screenshots
 TODO
