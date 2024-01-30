@@ -30,9 +30,9 @@ function endTimer() {
 
   // show prompt based on what type of timer should be ran next
   if (type === "work") {
-    browser.tabs.create({ url: browser.extension.getURL("prompts/start_break.html") });
+    browser.tabs.create({ url: browser.runtime.getURL("prompts/start_break.html") });
   } else {
-    browser.tabs.create({ url: browser.extension.getURL("prompts/start_pomodoro.html") });
+    browser.tabs.create({ url: browser.runtime.getURL("prompts/start_pomodoro.html") });
   }
 
   if (autoStart) {
@@ -67,7 +67,7 @@ function sendNotifications() {
 
   browser.notifications.create({
     type: "basic",
-    iconUrl: browser.extension.getURL("icons/tomato-64.png"),
+    iconUrl: browser.runtime.getURL("icons/tomato-64.png"),
     title,
     message: content,
   });
