@@ -10,7 +10,7 @@ function handleResponse(response) {
 
 function promptUser() {
   if (count < countBeforeLongBreak) {
-    start_button.innerText = "Start short break";
+    start_button.innerText = "Start break";
   } else {
     start_button.innerText = "Start long break";
   }
